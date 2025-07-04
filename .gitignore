@@ -1,0 +1,11 @@
+# Ignore global
+node_modules
+.env
+.DS_Store
+
+# Ignore React build
+essai/build
+
+# Ignore backend log files
+server/logs
+backend/logs

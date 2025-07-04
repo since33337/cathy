@@ -1,0 +1,261 @@
+/* product.css */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.btnAdd {
+  margin-bottom: 30px;
+  text-align: right;
+  
+}
+
+
+.btnAdd a {
+  display: inline-block;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px 24px;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btnAdd a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.tableproduct {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.table thead th {
+  padding: 16px 12px;
+  text-align: left;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 12px;
+  border: none;
+}
+
+.table thead th:first-child {
+  border-radius: 0;
+  text-align: center;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9ff;
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.table tbody td {
+  padding: 16px 12px;
+  vertical-align: middle;
+  color: #333;
+  line-height: 1.5;
+}
+
+.table tbody td:first-child {
+  text-align: center;
+  width: 80px;
+}
+
+.table tbody td img {
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.table tbody td img:hover {
+  transform: scale(1.1);
+  border-color: #667eea;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Colonne nom du produit */
+.table tbody td:nth-child(2) {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 15px;
+}
+
+/* Colonne description */
+.table tbody td:nth-child(3) {
+  color: #7f8c8d;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Colonne prix */
+.table tbody td:nth-child(4) {
+  font-weight: 700;
+  color: #27ae60;
+  font-size: 16px;
+}
+
+/* Colonne actions */
+.table tbody td:nth-child(5) {
+  white-space: nowrap;
+}
+
+.btnk {
+  background: #fff;
+  border: 1px solid #ddd;
+  color: #333;
+  padding: 6px 12px;
+  margin: 0 2px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.btnk:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btnk:first-child {
+  border-color: #3498db;
+  color: #3498db;
+}
+
+.btnk:first-child:hover {
+  background: #3498db;
+  color: white;
+}
+
+.btnk:nth-child(2) {
+  border-color: #f39c12;
+  color: #f39c12;
+}
+
+.btnk:nth-child(2):hover {
+  background: #f39c12;
+  color: white;
+}
+
+.btnk:last-child {
+  border-color: #e74c3c;
+  color: #e74c3c;
+}
+
+.btnk:last-child:hover {
+  background: #e74c3c;
+  color: white;
+}
+
+/* Message "Aucun produit disponible" */
+.table tbody tr td[colspan="5"] {
+  text-align: center;
+  padding: 40px;
+  color: #7f8c8d;
+  font-style: italic;
+  font-size: 16px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+/* État de chargement */
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #667eea;
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .btnAdd {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .table {
+    font-size: 12px;
+  }
+  
+  .table thead th,
+  .table tbody td {
+    padding: 8px 6px;
+  }
+  
+  .table tbody td:nth-child(3) {
+    display: none; /* Cache la description sur mobile */
+  }
+  
+  .table thead th:nth-child(3) {
+    display: none; /* Cache l'en-tête description sur mobile */
+  }
+  
+  .btnk {
+    padding: 4px 8px;
+    font-size: 10px;
+    margin: 1px;
+  }
+  
+  .table tbody td img {
+    width: 40px !important;
+    height: 40px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .table tbody td:nth-child(1) {
+    display: none; /* Cache les images sur très petits écrans */
+  }
+  
+  .table thead th:nth-child(1) {
+    display: none;
+  }
+  
+  .btnk {
+    display: block;
+    margin: 2px 0;
+    width: 100%;
+  }
+}

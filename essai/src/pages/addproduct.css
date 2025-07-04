@@ -1,0 +1,99 @@
+/* Style global du formulaire */
+.container {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.form-product {
+  display: flex;
+  flex-direction: column;
+}
+
+.title-product {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+/* Style des labels */
+form label {
+  font-weight: 600;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  display: block;
+  color: #444;
+}
+
+/* Style des champs de formulaire */
+form input[type="text"],
+form input[type="number"],
+form input[type="file"],
+form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* Style du textarea */
+form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Bouton Ajouter */
+.btnAdd {
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btnAdd:hover {
+  background-color: #0056b3;
+}
+
+/* Messages */
+.success {
+  margin-top: 15px;
+  color: green;
+  font-weight: 600;
+  text-align: center;
+}
+
+.error {
+  margin-top: 15px;
+  color: red;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .title-product {
+    font-size: 20px;
+  }
+
+  .btnAdd {
+    font-size: 15px;
+    padding: 10px;
+  }
+}
