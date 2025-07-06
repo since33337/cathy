@@ -1,10 +1,12 @@
 const express= require('express');
 const cors=require('cors')
 const multer=require('multer');
+require("dotenv").config();
+
 
 
 const productRoutes=require('./routes/productRoutes');
-const PORT=8800;
+const PORT=process.env.PORT || 8800;
 
 const app=express() // application express
 app.use('/uploads',express.static('uploads'));
