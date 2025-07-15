@@ -12,27 +12,27 @@ const Product = () => {
   const [selectedProduct, setSelectProduct] = useState(null);
   const [editingProduct, setEditingProduct] = useState(null);
 
-
   const fetchProducts = () => {
-  axios.get('http://localhost:8800/api/products')
-    .then(res => {
-      console.log("Données reçues:", res.data);
-      
-      // Votre API retourne toujours { message: "...", data: [...] }
-      if (res.data.data && Array.isArray(res.data.data)) {
-        setProducts(res.data.data);
-      } else {
-        console.error("Pas de données de produits trouvées");
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/products`)
+      .then(res => {
+        console.log("Données reçues:", res.data);
+
+        if (res.data.data && Array.isArray(res.data.data)) {
+          setProducts(res.data.data);
+        } else {
+          console.error("Pas de données de produits trouvées");
+          setProducts([]);
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Erreur lors de la récupération des produits :", err);
         setProducts([]);
-      }
-      setLoading(false);
-    })
-    .catch(err => {
-      console.error("Erreur lors de la récupération des produits :", err);
-      setProducts([]);
-      setLoading(false);
-    });
-};
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -47,7 +47,8 @@ const Product = () => {
 
   const handleDelete = (id, name) => {
     if (window.confirm(`Supprimer le produit '${name}' ?`)) {
-      axios.delete(`http://localhost:8800/api/products/${id}`)
+      axios
+        .delete(`${import.meta.env.VITE_API_URL}/products/${id}`)
         .then(() => {
           fetchProducts();
         })
@@ -85,7 +86,7 @@ const Product = () => {
                   <td>
                     {product.image && (
                       <img
-                        src={`http://localhost:8800/uploads/${product.image}`}
+                        src={`${import.meta.env.VITE_API_URL.replace('/api', '')}/uploads/${product.image}`}
                         alt={product.image || 'Image'}
                         style={{ width: '50px', height: '50px', objectFit: 'cover' }}
                       />

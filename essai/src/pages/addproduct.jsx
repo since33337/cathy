@@ -54,7 +54,7 @@ const AddProduct = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8800/api/products', productData, {
+     const response = await axios.post(`${import.meta.env.VITE_API_URL}/products`, productData,{
         headers: {
           'Content-Type': 'multipart/form-data'
         }
