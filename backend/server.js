@@ -12,7 +12,7 @@ const app = express(); // application express
 app.use(cors({
   origin: [
     'http://localhost:5173', // pour dev local
-    'https://cathy-y1j5-22j2agmfx-cathys-projects-d856d899.vercel.app' // sans "/" à la fin
+    'https://cathy-y1j5-ddz4tflbq-cathys-projects-d856d899.vercel.app'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
