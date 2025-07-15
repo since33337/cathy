@@ -1,21 +1,20 @@
-import mysql from 'mysql';
-import dotenv from 'dotenv';
-
-dotenv.config();
+require('dotenv').config();
+const mysql = require('mysql');
 
 const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
+ host: process.env.DB_HOST,       // ex: shortline.proxy.rlwy.net
+  user: process.env.DB_USER,       // root
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT
 });
 
-connection.connect((err) => {
+connection.connect(err => {
   if (err) {
-    console.error('Erreur de connexion à la base de données :', err);
-    return;
+    console.error('Erreur connexion DB:', err);
+  } else {
+    console.log('✅ Connecté à la base Railway !');
   }
-  console.log('Connecté à la base de données MySQL');
 });
 
-export default connection;
+module.exports = connection;
