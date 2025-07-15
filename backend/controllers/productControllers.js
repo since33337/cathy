@@ -1,117 +1,95 @@
 const db = require('../config/dbconfig');
 
-const getAllProduct = (req, res) => {
-    const sql = 'SELECT * FROM product';
-    db.query(sql, (err, results) => {
-        if (err) return res.status(500).json({ message: 'Erreur lors de recuperation des produits', error: err });
-        return res.status(200).json({ message: 'recuperation des produits avec succes', data: results });
-    });
+const getAllProduct = async (req, res) => {
+    try {
+        const result = await db.query('SELECT * FROM product');
+        res.status(200).json({ message: 'Produits récupérés avec succès', data: result.rows });
+    } catch (err) {
+        res.status(500).json({ message: 'Erreur lors de la récupération des produits', error: err });
+    }
 };
 
-const getProductById = (req, res) => { // ERREUR CORRIGÉE: nom de fonction était "getProductBId"
+const getProductById = async (req, res) => {
     const id = req.params.id;
-    const sql = 'SELECT * FROM product WHERE id=?'; // ERREUR CORRIGÉE: était "SELECT * FROM WHERE product id=?"
-    db.query(sql, [id], (err, results) => {
-        if (err) return res.status(500).json({ message: 'erreur lors de la recuperation d\'un seule produit', error: err });
-        
-        // AMÉLIORATION: Vérifier si le produit existe
-        if (results.length === 0) {
+    try {
+        const result = await db.query('SELECT * FROM product WHERE id = $1', [id]);
+        if (result.rows.length === 0) {
             return res.status(404).json({ message: 'Produit non trouvé' });
         }
-        
-        return res.status(200).json({ message: 'produit recuperer avec succes', data: results[0] });
-    });
+        res.status(200).json({ message: 'Produit récupéré avec succès', data: result.rows[0] });
+    } catch (err) {
+        res.status(500).json({ message: 'Erreur lors de la récupération du produit', error: err });
+    }
 };
 
-const addProduct = (req, res) => {
+const addProduct = async (req, res) => {
     const { nom, description, prix } = req.body;
-    
-    // Vérification des champs obligatoires
+
     if (!nom || !description || !prix || isNaN(prix) || Number(prix) <= 0) {
-        return res.status(400).json({
-            message: 'Tous les champs sont requis et le prix doit être un nombre positif'
-        });
+        return res.status(400).json({ message: 'Champs invalides ou manquants' });
     }
-    
-    // Vérification de l'image envoyée
+
     if (!req.file) {
-        return res.status(400).json({
-            message: 'L\'image du produit est requise'
-        });
+        return res.status(400).json({ message: 'Image requise' });
     }
-    
-    const image = req.file.filename; // nom du fichier image enregistré par Multer
-    
-    // Insertion dans la base de données
-    db.query(
-        'INSERT INTO product(nom, description, image, prix) VALUES(?, ?, ?, ?)',
-        [nom, description, image, prix],
-        (err, results) => {
-            if (err) {
-                console.error('Erreur SQL :', err);
-                return res.status(500).json({
-                    message: 'Erreur lors de l\'ajout du produit',
-                    error: err
-                });
-            }
-            return res.status(201).json({
-                message: 'Produit ajouté avec succès',
-                data: {
-                    id: results.insertId,
-                    nom,
-                    description,
-                    image,
-                    prix
-                }
-            });
-        }
-    );
+
+    const image = req.file.filename;
+
+    try {
+        const result = await db.query(
+            'INSERT INTO product (nom, description, image, prix) VALUES ($1, $2, $3, $4) RETURNING *',
+            [nom, description, image, prix]
+        );
+        res.status(201).json({ message: 'Produit ajouté avec succès', data: result.rows[0] });
+    } catch (err) {
+        res.status(500).json({ message: 'Erreur lors de l\'ajout du produit', error: err });
+    }
 };
 
-const updateProduct = (req, res) => { // ERREUR CORRIGÉE: nom de fonction était "UpdateProduct" (convention camelCase)
+const updateProduct = async (req, res) => {
+    const id = req.params.id;
     const { nom, description, prix } = req.body;
-    const id = req.params.id;
-    const image = req.file ? req.file.filename : req.body.image; // conserver l'ancien image
-    
-    // AMÉLIORATION: Validation des données
+    const image = req.file ? req.file.filename : req.body.image;
+
     if (!nom || !description || !prix || isNaN(prix) || Number(prix) <= 0) {
-        return res.status(400).json({
-            message: 'Tous les champs sont requis et le prix doit être un nombre positif'
-        });
+        return res.status(400).json({ message: 'Champs invalides ou manquants' });
     }
-    
-    const sql = 'UPDATE product SET nom=?, description=?, prix=?, image=? WHERE id=?';
-    db.query(sql, [nom, description, prix, image, id], (err, results) => {
-        if (err) return res.status(500).json({ message: 'erreur lors de la modification du produit', error: err }); // ERREUR CORRIGÉE: message était "modification de l.image"
-        
-        // AMÉLIORATION: Vérifier si le produit a été modifié
-        if (results.affectedRows === 0) {
+
+    try {
+        const result = await db.query(
+            'UPDATE product SET nom=$1, description=$2, prix=$3, image=$4 WHERE id=$5 RETURNING *',
+            [nom, description, prix, image, id]
+        );
+
+        if (result.rows.length === 0) {
             return res.status(404).json({ message: 'Produit non trouvé' });
         }
-        
-        return res.status(200).json({ message: 'produit modifier avec succes', data: results });
-    });
+
+        res.status(200).json({ message: 'Produit modifié avec succès', data: result.rows[0] });
+    } catch (err) {
+        res.status(500).json({ message: 'Erreur lors de la modification', error: err });
+    }
 };
 
-const deleteProduct = (req, res) => {
+const deleteProduct = async (req, res) => {
     const id = req.params.id;
-    const sql = 'DELETE FROM product WHERE id=?';
-    db.query(sql, [id], (err, results) => {
-        if (err) return res.status(500).json({ message: 'echec lors de la suppression d\'un produit', error: err }); // ERREUR CORRIGÉE: était "d.un produit"
-        
-        // AMÉLIORATION: Vérifier si le produit a été supprimé
-        if (results.affectedRows === 0) {
+
+    try {
+        const result = await db.query('DELETE FROM product WHERE id = $1 RETURNING *', [id]);
+        if (result.rows.length === 0) {
             return res.status(404).json({ message: 'Produit non trouvé' });
         }
-        
-        return res.status(200).json({ message: 'produit supprimer avec succes', data: results });
-    });
+
+        res.status(200).json({ message: 'Produit supprimé avec succès', data: result.rows[0] });
+    } catch (err) {
+        res.status(500).json({ message: 'Erreur lors de la suppression', error: err });
+    }
 };
 
 module.exports = {
     getAllProduct,
-    getProductById, // ERREUR CORRIGÉE: était "getProductBId"
+    getProductById,
     addProduct,
-    updateProduct, // ERREUR CORRIGÉE: était "UpdateProduct"
+    updateProduct,
     deleteProduct
 };
