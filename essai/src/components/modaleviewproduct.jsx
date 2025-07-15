@@ -9,7 +9,7 @@ const ModaleViewProduct = ({ product, onClose }) => {
       <div className='modal'>
         <h2>Détail du produit</h2>
         <img
-          src={`${import.meta.env.VITE_API_URL}/products/uploads/${product.image}`}
+          src={`${import.meta.env.VITE_API_URL.replace('/api', '')}/uploads/${product.image}`}
           alt={product.nom}
           className='modal-image'
         />
