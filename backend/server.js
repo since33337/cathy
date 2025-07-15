@@ -15,7 +15,7 @@ app.use(express.urlencoded({extended:true})) // pour les formulaires html
 
 
 app.use(cors({
-    origin:['http://localhost:5173'],
+    origin:['https://cathy-y1j5-22j2agmfx-cathys-projects-d856d899.vercel.app/'],
     methods:['GET','POST','PUT','DELETE'],
 }))
 app.use('/api/products',productRoutes);
