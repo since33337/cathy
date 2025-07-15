@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AddProduct from './pages/addProduct';
+import AddProduct from './pages/addproduct';
 import Product from './pages/product';
 
 

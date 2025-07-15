@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './addProduct.css';
 import { useNavigate } from 'react-router-dom';
+
 const AddProduct = () => {
   const [formData, setFormData] = useState({
     nom: '',
